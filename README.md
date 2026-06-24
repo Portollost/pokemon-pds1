@@ -138,6 +138,51 @@ flowchart TD
     R --> S([Fim])
 ```
 
+## Exemplo de execução
+
+O exemplo abaixo utiliza três Pokémon para o jogador 1 e quatro para o jogador 2. Ele demonstra leitura dos dados, alternância de turnos, vantagem de tipo e substituição de Pokémon derrotados.
+
+### Entrada
+
+Conteúdo de `entrada.txt`:
+
+```text
+3 4
+Squirtle 20 10 15 agua
+Vulpix 15 10 15 fogo
+Onix 12 12 15 pedra
+Charmander 18 10 10 fogo
+Pikachu 20 12 10 eletrico
+Geodude 10 10 10 pedra
+Spheal 10 10 10 gelo
+```
+
+### Processo
+
+1. O programa lê os valores `3` e `4` e aloca duas equipes: uma com três Pokémon e outra com quatro.
+2. Squirtle começa a batalha contra Charmander. Como Água é forte contra Fogo, o ataque de Squirtle é aumentado em 20\% e Charmander é derrotado.
+3. Pikachu entra para o jogador 2 e, por ser do tipo Elétrico, causa dano aumentado contra Squirtle, derrotando-o no turno seguinte.
+4. Vulpix entra para o jogador 1, derrota Pikachu e depois enfrenta Geodude. Como a relação entre Fogo e Pedra é neutra, o dano usa o ataque original de Vulpix.
+5. Após derrotar Geodude, Vulpix enfrenta Spheal. Fogo é forte contra Gelo, portanto Vulpix recebe novamente o bônus de 20\% e derrota o último Pokémon do jogador 2.
+6. O programa identifica o jogador 1 como vencedor, registra Vulpix e Onix como sobreviventes, lista os derrotados e libera a memória das equipes.
+
+### Saída
+
+Conteúdo esperado de `saida.txt`:
+
+```text
+Squirtle venceu Charmander
+Pikachu venceu Squirtle
+Vulpix venceu Pikachu
+Vulpix venceu Geodude
+Vulpix venceu Spheal
+Jogador 1 venceu
+Pokemon sobreviventes:
+Vulpix Onix
+Pokemon derrotados:
+Squirtle Charmander Pikachu Geodude Spheal
+```
+
 ## Resultado gerado
 
 Ao fim da simulação, `saida.txt` informa:
