@@ -110,6 +110,34 @@ Quando o índice atual de uma equipe alcança sua quantidade total de Pokémon, 
 
 Por fim, `liberar_jogador` libera o vetor dinâmico de cada equipe e a estrutura de cada jogador. Os arquivos abertos também são fechados antes do encerramento do programa.
 
+### Diagrama lógico da execução
+
+```mermaid
+flowchart TD
+    A([Início]) --> B[Abrir entrada.txt]
+    B --> C{Arquivo aberto?}
+    C -- Não --> X[Informar erro e encerrar]
+    C -- Sim --> D[Criar saida.txt]
+    D --> E{Arquivo criado?}
+    E -- Não --> X
+    E -- Sim --> F[Ler N e M]
+    F --> G[Criar jogadores e alocar equipes]
+    G --> H[Ler os Pokémon das duas equipes]
+    H --> I[Fechar entrada.txt]
+    I --> J{Os dois jogadores\npossuem Pokémon ativos?}
+    J -- Sim --> K{Vez do jogador 1?}
+    K -- Sim --> L[Executar turno\ndo jogador 1]
+    K -- Não --> M[Executar turno\ndo jogador 2]
+    L --> N[Alternar a vez]
+    M --> N
+    N --> J
+    J -- Não --> O[Determinar o vencedor]
+    O --> P[Gravar sobreviventes e derrotados\nem saida.txt]
+    P --> Q[Liberar equipes e jogadores]
+    Q --> R[Fechar saida.txt]
+    R --> S([Fim])
+```
+
 ## Resultado gerado
 
 Ao fim da simulação, `saida.txt` informa:
