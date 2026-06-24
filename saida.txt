@@ -1,0 +1,8 @@
+Squirtle venceu Golem
+Charmander venceu Squirtle
+Vulpix venceu Charmander
+Jogador 1 venceu
+Pokemon sobreviventes:
+Vulpix Onix
+Pokemon derrotados:
+Squirtle Golem Charmander

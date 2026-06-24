@@ -1,0 +1,43 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Compilar Pokemon (GCC)",
+            "type": "process",
+            "command": "C:\\MinGW\\bin\\gcc.exe",
+            "args": [
+                "-std=c11",
+                "-Wall",
+                "-Wextra",
+                "-Wpedantic",
+                "-g",
+                "main.c",
+                "pokemon.c",
+                "jogador.c",
+                "-o",
+                "pokemon.exe"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Executar Pokemon (GCC)",
+            "type": "process",
+            "command": "${workspaceFolder}\\pokemon.exe",
+            "dependsOn": "Compilar Pokemon (GCC)",
+            "dependsOrder": "sequence",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        }
+    ]
+}
