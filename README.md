@@ -138,11 +138,11 @@ flowchart TD
     R --> S([Fim])
 ```
 
-## Exemplo de execução
+## Exemplo de Execução
 
 O exemplo abaixo utiliza três Pokémon para o jogador 1 e quatro para o jogador 2. Ele demonstra leitura dos dados, alternância de turnos, vantagem de tipo e substituição de Pokémon derrotados.
 
-### Entrada
+### Input
 
 Conteúdo de `entrada.txt`:
 
@@ -166,7 +166,7 @@ Spheal 10 10 10 gelo
 5. Após derrotar Geodude, Vulpix enfrenta Spheal. Fogo é forte contra Gelo, portanto Vulpix recebe novamente o bônus de 20\% e derrota o último Pokémon do jogador 2.
 6. O programa identifica o jogador 1 como vencedor, registra Vulpix e Onix como sobreviventes, lista os derrotados e libera a memória das equipes.
 
-### Saída
+### Output
 
 Conteúdo esperado de `saida.txt`:
 
@@ -235,9 +235,75 @@ O executável deve estar no mesmo diretório de `entrada.txt`. Depois da execuç
 - Os nomes dos arquivos de entrada e saída foram definidos como constantes no código para simplificar a execução e a correção.
 - A memória alocada para as duas equipes é liberada antes do encerramento do programa.
 
-## Teste realizado
+## 3. Testes e Erros
 
-O caso de exemplo do enunciado foi executado com sucesso. O programa registrou as vitórias de Squirtle sobre Golem, Charmander sobre Squirtle e Vulpix sobre Charmander, declarando o jogador 1 como vencedor e listando Vulpix e Onix como sobreviventes.
+### Processo de Criação do Algoritmo
+
+O algoritmo foi desenvolvido de forma incremental. Primeiro, foram definidas as estruturas `Pokemon` e `Jogador`, além das funções de alocação e liberação de memória. Depois, foram implementadas a leitura de `entrada.txt`, a conversão dos tipos e a gravação de `saida.txt`.
+
+Com as equipes preenchidas, foi criada a função de cálculo de dano e, em seguida, a função responsável por executar um turno. Por fim, foram adicionados o controle da vez de cada jogador, a substituição de Pokémon derrotados e a impressão do resultado final. A cada alteração, o programa foi compilado com os avisos `-Wall`, `-Wextra` e `-Wpedantic` e executado com entradas de teste.
+
+### Exemplos de Erros Comuns e Correções
+
+**Erro: dano igual a zero quando o ataque não superava a defesa.**
+
+Nas primeiras tentativas, um dano nulo fazia alguns confrontos repetirem indefinidamente, pois nenhum dos Pokémon perdia vida.
+
+1. **Correção:** a função `calcular_dano` passou a retornar `1` sempre que a diferença entre ataque ajustado e defesa fosse menor ou igual a zero.
+
+**Erro: modificador de tipo aplicado de forma incorreta.**
+
+O bônus e a penalidade de tipo precisavam afetar somente o ataque do atacante e seguir os valores de 20% definidos no enunciado.
+
+2. **Correção:** foram utilizadas as expressões `ataque * 120 / 100` para vantagem e `ataque * 80 / 100` para fraqueza. A defesa do Pokémon oponente permanece inalterada.
+
+**Erro: arquivo de entrada salvo com BOM.**
+
+Quando `entrada.txt` foi salvo como UTF-8 com BOM, os primeiros bytes do arquivo impediram a leitura correta dos valores `N` e `M` por `fscanf`.
+
+3. **Correção:** o arquivo de entrada passou a ser salvo como UTF-8 sem BOM, e o retorno de `fscanf` é verificado antes de continuar a execução.
+
+### Testes Realizados
+
+Foram realizados testes com quantidades diferentes de Pokémon, relações forte, fraca e neutra entre tipos, substituição de Pokémon e dano mínimo.
+
+#### Caso 1 — Exemplo do enunciado
+
+```text
+3 2
+Squirtle 10 15 15 agua
+Vulpix 15 15 15 fogo
+Onix 5 20 20 pedra
+Golem 20 5 10 pedra
+Charmander 20 15 12 fogo
+```
+
+**Resultado esperado e obtido:** jogador 1 vence; Vulpix e Onix sobrevivem; Squirtle, Golem e Charmander são derrotados.
+
+#### Caso 2 — Vantagem de tipo e substituição de Pokémon
+
+```text
+3 4
+Squirtle 20 10 15 agua
+Vulpix 15 10 15 fogo
+Onix 12 12 15 pedra
+Charmander 18 10 10 fogo
+Pikachu 20 12 10 eletrico
+Geodude 10 10 10 pedra
+Spheal 10 10 10 gelo
+```
+
+**Resultado esperado e obtido:** jogador 1 vence; Squirtle derrota Charmander, Pikachu derrota Squirtle e Vulpix derrota Pikachu, Geodude e Spheal. Vulpix e Onix permanecem como sobreviventes.
+
+#### Caso 3 — Dano mínimo
+
+```text
+1 1
+Onix 5 20 10 pedra
+Charmander 20 20 3 fogo
+```
+
+Nesse caso, os ataques não superam as defesas e, portanto, o programa deve aplicar dano mínimo de uma unidade. **Resultado esperado e obtido:** Onix derrota Charmander e o programa encerra a batalha sem entrar em loop infinito.
 
 ## Conclusão
 
